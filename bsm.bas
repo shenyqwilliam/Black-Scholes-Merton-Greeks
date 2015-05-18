@@ -3,22 +3,11 @@
 'Compatible with Excel 2010
 '
 '
-'[Licensing]
-'I, the copyright holder of this work, hereby release it into the public domain. This applies worldwide.
-'If this is not legally possible:
-'I grant any entity the right to use this work for any purpose, without any conditions, unless such conditions are required by law.
-'
-'
-'[Disclaimer]
-'This VBA macro may contain mistakes. The author does not assume accountability for any loss caused by this macro.
-'In short, use at your own discretion.
-'
-'
 '[Notes]
-'This VBA emphasis on efficiency rather than accuracy or code explicitness.
+'This VBA emphasizes on efficiency rather than accuracy or code explicitness.
 'Basic formulas of option price and most first-order Greeks are based on work by Chen, Lee and Shih (2010).
 'Most second- and third-order Greeks are based on article by Haug (2003). Cost of carry "b" in Haug's article equals "r-q" in this Macro, i.e. q=r-b
-'CDF of normal distribution uses numerical calculation based on work by Abramowitz and Stegun (1964). If you need more accurate result, use Excel functions instead.
+'CDF of normal distribution uses numerical calculation based on work by Abramowitz and Stegun (1964). If you prefer higher accuracy, use Excel functions instead.
 'Since percentage Greeks are subject to convention, they are commented. Make sure to check codes before uncommenting and using them.
 '
 '
@@ -315,8 +304,7 @@ End Function
 Private Function NPrime(ByVal d As Double) As Double
     NPrime = Exp(-d * d * 0.5) / Sqr(2 * Pi)
     
-    ''Roughly 3x faster than native Excel functions.
-    
+    ''The above function is roughly 3x faster than native Excel functions below.
     'NPrime = WorksheetFunction.Norm_S_Dist(d, False)            'For Excel 2010
     'NPrime = WorksheetFunction.NormDist(d, 0, 1, False)         'For Excel 2007
 End Function
@@ -331,9 +319,8 @@ Private Function NormSCDF(ByVal d As Double) As Double
     Else: NormSCDF = 1 - NormSCDF(-d)
     End If
     
-    ''Numerical approximation, based on work by Abramowitz & Stegun (1964)
-    ''Roughly 3x faster than native Excel functions. |epsilon|<7.5E-8
-    
+    ''The above function utilizes numerical approximation, based on work by Abramowitz & Stegun (1964)
+    ''Roughly 3x faster than native Excel functions below. |epsilon|<7.5E-8
     'NormSCDF = WorksheetFunction.Norm_S_Dist(d, True)           'For Excel 2010
     'NormSCDF = WorksheetFunction.NormSDist(d)                   'For Excel 2007
 End Function
